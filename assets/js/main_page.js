@@ -20,17 +20,9 @@ $('.hamburger-icon.icon-nav-menu').click(()=>{
 
 // Slide Show
 let slideIndex = 0;
-let clicked = false;
-let number = 0;
 showSlides();
 
-function showSlides(clicked) {
-    // if(clicked){
-    //     clicked = false;
-    //     slideIndex = number;
-        
-    // }
-    // console.log(slideIndex);
+function showSlides() {
     $('.slide').hide();
     $('.slider-dot').removeClass('active');
     // $(`.slide:eq(${slideIndex})`).show();
@@ -41,15 +33,31 @@ function showSlides(clicked) {
     slideIndex++;
     if (slideIndex >= $('.slide').length) {slideIndex = 0} 
 
-    setTimeout(showSlides, 3000); // Change image every 2 seconds
+    setTimeout(showSlides, 4000);
 }
 
-// $('.slider-dot').click((event)=>{
-//     $('.slider-dot').removeClass('active');
-//     console.log(event.target.id)
-//     $(`.slider-dot:eq(${event.target.id})`).addClass('active');
-//     $('.slide').hide();
-//     $(`.slide:eq(${event.target.id})`).show();
-//     clicked = true;
-//     number = event.target.id;
-// });
+$('a[href*="#"]').on('click', function(e) {
+    e.preventDefault()
+    
+    if($(this).hasClass("nav-link")){
+        $('.nav-link').removeClass('current');
+        $(this).addClass('current');
+        
+        $.when($('.nav-menu').slideUp("slow")).then(()=>{
+            $('.nav-menu').removeClass("nav-overlay");
+            $('.nav-menu').removeClass("nav-menu-open");
+            $('.nav-link').removeClass("nav-link-open");
+        });
+    }
+
+    $('html, body').animate(
+      {
+        scrollTop: $($(this).attr('href')).offset().top,
+      },
+      500,
+      'linear'
+    )
+
+    
+
+  })
